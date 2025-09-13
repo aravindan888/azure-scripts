@@ -1,0 +1,15 @@
+#!/bin/bash
+# ==============================================================
+# Script: 06-monitoring-audit.sh
+# Purpose: Verify diagnostic settings and monitoring coverage
+#          for all resources inside rg.
+# Usage:   ./06-monitoring-audit.sh
+# ==============================================================
+
+RG=""
+
+echo "Checking diagnostic settings for each resource in $RG..."
+for rid in $(az resource list --resource-group $RG --query "[].id" -o tsv); do
+  echo "Resource: $rid"
+  az monitor diagnostic-settings list --resource $rid -o json
+done
